@@ -12,9 +12,9 @@ class OptionItem extends DataObject{
 		'WeightModifier' => 'Int',
 		'CodeModifier' => 'Text',
 		'PriceModifier' => 'Currency',
+		'PriceModifierAction' => "Enum('Add,Subtract,Set','Add')",
 		'WeightModifierAction' => "Enum('Add,Subtract,Set','Add')",
-		'CodeModifierAction' => "Enum('Add,Subtract,Set','Add')",
-		'PriceModifierAction' => "Enum('Add,Subtract,Set','Add')"
+		'CodeModifierAction' => "Enum('Add,Set','Add')"
 	);
 	static $has_one = array(
 		'Product' => 'ProductPage',
@@ -29,14 +29,6 @@ class OptionItem extends DataObject{
 		$parentCode = $this->Product()->Code;
 		
 		$fields->push(new TextField('Title', 'Product Option Title'));
-		$fields->push(new NumericField('WeightModifier', 'Weight'));
-		$fields->push(new DropDownField('WeightModifierAction', 'Weight Modifiction',
-			array(
-				'Add'=>sprintf('Add to Base Weight (%2.2f)',$parentWeight),
-				'Subtract'=>sprintf('Subtract from Base Weight (%2.2f)',$parentWeight),
-				'Set'=>'Set as a new Weight'
-			)
-		));
 		$fields->push(new NumericField('PriceModifier', 'Price'));
 		$fields->push(new DropDownField('PriceModifierAction', 'Price Modifiction',
 			array(
@@ -45,11 +37,18 @@ class OptionItem extends DataObject{
 				'Set'=>'Set as a new Price'
 			)
 		));
+		$fields->push(new NumericField('WeightModifier', 'Weight'));
+		$fields->push(new DropDownField('WeightModifierAction', 'Weight Modifiction',
+			array(
+				'Add'=>sprintf('Add to Base Weight (%2.2f)',$parentWeight),
+				'Subtract'=>sprintf('Subtract from Base Weight (%2.2f)',$parentWeight),
+				'Set'=>'Set as a new Weight'
+			)
+		));
 		$fields->push(new TextField('CodeModifier', 'Code'));
 		$fields->push(new DropDownField('CodeModifierAction', 'Code Modifiction',
 			array(
 				'Add'=>sprintf('Add to Base Code (%s)',$parentCode),
-				'Subtract'=>sprintf('Subtract from Base Code (%s)',$parentCode),
 				'Set'=>'Set as a new Code'
 			)
 		));
